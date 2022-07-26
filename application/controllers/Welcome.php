@@ -19,7 +19,20 @@ class Welcome extends CI_Controller {
 	 * @see https://codeigniter.com/userguide3/general/urls.html
 	 */
 	public function index()
+	{   $mesimage=$this->Model->getRequete("SELECT * FROM `image`");
+	    $data=array('mesimage'=>$mesimage);
+		$this->load->view('welcome_message',$data);
+	}
+	public function saveMyimages($value='')
 	{
-		$this->load->view('welcome_message');
+		// code...
+		$file = $_FILES['image']['tmp_name'];
+        $image = file_get_contents($file);
+		$insert=$this->Model->create('image',array('imageblob'=>$image));
+		if ($insert) {
+			// code...
+			echo(json_encode(array('message'=>"Vyakunze")));
+		}
+		//print_r($image) ;
 	}
 }
